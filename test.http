@@ -1,0 +1,185 @@
+### 1. Health Check
+GET http://localhost:5000/
+
+###
+
+### 2. Create Admin User
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+  "name": "Alice Admin",
+  "email": "alice@example.com",
+  "role": "admin",
+  "isActive": true
+}
+
+###
+
+### 3. Create Analyst User
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+  "name": "Bob Analyst",
+  "email": "bob@example.com",
+  "role": "analyst",
+  "isActive": true
+}
+
+###
+
+### 4. Create Viewer User
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+  "name": "Carol Viewer",
+  "email": "carol@example.com",
+  "role": "viewer",
+  "isActive": true
+}
+
+###
+
+### 5. Get All Users
+GET http://localhost:5000/users
+
+###
+
+### 6. Create Income Record (Admin)
+POST http://localhost:5000/records
+Content-Type: application/json
+x-role: admin
+
+{
+  "amount": 75000,
+  "type": "income",
+  "category": "Salary",
+  "date": "2024-01-15",
+  "notes": "January salary"
+}
+
+###
+
+### 7. Create Another Income Record (Admin)
+POST http://localhost:5000/records
+Content-Type: application/json
+x-role: admin
+
+{
+  "amount": 15000,
+  "type": "income",
+  "category": "Freelance",
+  "date": "2024-01-20",
+  "notes": "Freelance project"
+}
+
+###
+
+### 8. Create Expense Record (Admin)
+POST http://localhost:5000/records
+Content-Type: application/json
+x-role: admin
+
+{
+  "amount": 20000,
+  "type": "expense",
+  "category": "Rent",
+  "date": "2024-01-01",
+  "notes": "Monthly rent"
+}
+
+###
+
+### 9. Create Another Expense Record (Admin)
+POST http://localhost:5000/records
+Content-Type: application/json
+x-role: admin
+
+{
+  "amount": 5000,
+  "type": "expense",
+  "category": "Food",
+  "date": "2024-01-10",
+  "notes": "Team lunch"
+}
+
+###
+
+### 10. Get All Records (Admin)
+GET http://localhost:5000/records
+x-role: admin
+
+###
+
+### 11. Get All Records (Analyst)
+GET http://localhost:5000/records
+x-role: analyst
+
+###
+
+### 12. Dashboard Summary (Admin)
+GET http://localhost:5000/dashboard/summary
+x-role: admin
+
+###
+
+### 13. Dashboard Summary (Analyst)
+GET http://localhost:5000/dashboard/summary
+x-role: analyst
+
+###
+
+### 14. Dashboard Summary (Viewer)
+GET http://localhost:5000/dashboard/summary
+x-role: viewer
+
+###
+
+### 15. ACCESS CONTROL TEST - Analyst tries to create record (should give 403)
+POST http://localhost:5000/records
+Content-Type: application/json
+x-role: analyst
+
+{
+  "amount": 5000,
+  "type": "income",
+  "category": "Test"
+}
+
+###
+
+### 16. ACCESS CONTROL TEST - Viewer tries to get records (should give 403)
+GET http://localhost:5000/records
+x-role: viewer
+
+###
+
+### 17. VALIDATION TEST - Missing amount (should give 400 error)
+POST http://localhost:5000/records
+Content-Type: application/json
+x-role: admin
+
+{
+  "type": "income",
+  "category": "Test"
+}
+
+###
+
+### 18. UPDATE Record - paste a real _id below from request 10 response
+PUT http://localhost:5000/records/PASTE_ID_HERE
+Content-Type: application/json
+x-role: admin
+
+{
+  "amount": 80000,
+  "notes": "Salary updated"
+}
+
+###
+
+### 19. DELETE Record - paste a real _id below from request 10 response
+DELETE http://localhost:5000/records/PASTE_ID_HERE
+x-role: admin
